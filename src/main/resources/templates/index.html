@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="./app.css">
 </head>
 <body>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Выйти">
+</form>
 <!-- We will put our React component inside this div. -->
 <div id="react">
 </div>
 
-<script th:src="@{/built/bundle.js}"></script>
+<script src="./built/bundle.js"></script>
 </body>
 </html>

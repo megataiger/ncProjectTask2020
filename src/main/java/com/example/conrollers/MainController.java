@@ -1,22 +1,38 @@
 package com.example.conrollers;
 
-import com.example.dao.BaseRepoImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.gson.JsonObject;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Controller
 public class MainController {
-    private BaseRepoImpl baseRepoImpl;
 
-    @Autowired
-    public MainController(BaseRepoImpl baseRepoImpl) {
-        this.baseRepoImpl = baseRepoImpl;
+    @RequestMapping(value = "/")
+    public String index() {
+        return "index";
     }
 
-    @GetMapping("/")
-    public String getHello() {
+    @RequestMapping(value = "/getUserRole")
+    @ResponseBody
+    public JsonObject getUserRole(Authentication authentication) {
+        JsonObject role = new JsonObject();
+        if (authentication.isAuthenticated()) {
+            role.addProperty("role", "ROLE_USER");
+            List<GrantedAuthority> grantedAuthorityList = new ArrayList<>(authentication.getAuthorities());
+            for(GrantedAuthority gr: grantedAuthorityList) {
+                if (gr.getAuthority().equals("ROLE_ADMIN")) {
+                    role.addProperty("role", gr.getAuthority());
+                }
+            }
+        }
 
-        return "hello";
+        return role;
     }
 }
