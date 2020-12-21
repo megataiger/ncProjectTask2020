@@ -1,7 +1,7 @@
-INSERT INTO employee (id, name, birthday, work_position) VALUES (1, 'Ilya', '1984-05-15', 'director');
-INSERT INTO employee (id, name, birthday, work_position) VALUES (2, 'Nikolay', '1989-10-27', 'manager');
-INSERT INTO employee (id, name, birthday, work_position) VALUES (3, 'Ivan', '1999-06-10', 'cashier');
-INSERT INTO employee (id, name, birthday, work_position) VALUES (4, 'Sergey', '1998-01-05', 'cashier');
+INSERT INTO employee (id, name, birthday, work_position) VALUES (1, 'Илья', '1984-05-15', 'Директор');
+INSERT INTO employee (id, name, birthday, work_position) VALUES (2, 'Николай', '1989-10-27', 'Менеджер');
+INSERT INTO employee (id, name, birthday, work_position) VALUES (3, 'Иван', '1999-06-10', 'Кассир');
+INSERT INTO employee (id, name, birthday, work_position) VALUES (4, 'Сергей', '1998-01-05', 'Кассир');
 
 INSERT INTO films (id, name, description, authors, main_actors, duration, category, age_rating)
     VALUES (1,

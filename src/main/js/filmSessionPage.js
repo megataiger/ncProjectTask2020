@@ -1,26 +1,22 @@
 'use strict';
 
-// tag::vars[]
-const React = require('react'); // <1>
-const ReactDOM = require('react-dom'); // <2>
-const client = require('./client'); // <3>
-// end::vars[]
+const React = require('react');
+const client = require('./client');
 
-// tag::filmSession-page[]
-export class FilmSessionPage extends React.Component { // <1>
+export class FilmSessionPage extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {filmSessions: []};
 	}
 
-	componentDidMount() { // <2>
+	componentDidMount() {
 		client({method: 'GET', path: './api/filmSessions'}).done(response => {
 			this.setState({filmSessions: response.entity._embedded.filmSessions});
 		});
 	}
 
-	render() { // <3>
+	render() {
 		return (
 			<div>
 			<FilmSessionList filmSessions={this.state.filmSessions}/>
@@ -28,9 +24,7 @@ export class FilmSessionPage extends React.Component { // <1>
 		)
 	}
 }
-// end::filmSession-page[]
 
-// tag::filmSession-list[]
 class FilmSessionList extends React.Component{
 	render() {
 		const filmSessions = this.props.filmSessions.map(filmSession =>
@@ -38,22 +32,22 @@ class FilmSessionList extends React.Component{
 		);
 		return (
 			<table className="pageTable">
-				<tbody>
+				<thead>
 					<tr>
 						<th>Название фильма</th>
 						<th>Начало сеанса</th>
 						<th>Цена на билет</th>
                         <th>Зал</th>
 					</tr>
+				</thead>
+				<tbody>
 					{filmSessions}
 				</tbody>
 			</table>
 		)
 	}
 }
-// end::filmSession-list[]
 
-// tag::filmSession[]
 class FilmSession extends React.Component{
     
     constructor(props) {
@@ -72,10 +66,9 @@ class FilmSession extends React.Component{
 			<tr>
                 <td>{this.state.film.name}</td>
 				<td>{this.props.filmSession.timeBegin}</td>
-				<td>{this.props.filmSession.price}</td>
+				<td>{this.props.filmSession.price}&#8381;</td>
 				<td>{this.props.filmSession.room}</td>
 			</tr>
 		)
 	}
 }
-// end::filmSession[]

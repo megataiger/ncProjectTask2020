@@ -1,26 +1,22 @@
 'use strict';
 
-// tag::vars[]
-const React = require('react'); // <1>
-const ReactDOM = require('react-dom'); // <2>
-const client = require('./client'); // <3>
-// end::vars[]
+const React = require('react');
+const client = require('./client');
 
-// tag::film-page[]
-export class FilmPage extends React.Component { // <1>
+export class FilmPage extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {films: []};
 	}
 
-	componentDidMount() { // <2>
+	componentDidMount() {
 		client({method: 'GET', path: './api/films'}).done(response => {
 			this.setState({films: response.entity._embedded.films});
 		});
 	}
 
-	render() { // <3>
+	render() {
 		return (
 			<div>
 			<FilmList films={this.state.films}/>
@@ -28,9 +24,7 @@ export class FilmPage extends React.Component { // <1>
 		)
 	}
 }
-// end::film-page[]
 
-// tag::film-list[]
 class FilmList extends React.Component{
 	render() {
 		const films = this.props.films.map(film =>
@@ -38,7 +32,7 @@ class FilmList extends React.Component{
 		);
 		return (
 			<table className="pageTable">
-				<tbody>
+				<thead>
 					<tr>
 						<th>Название фильма</th>
 						<th>Описание</th>
@@ -48,15 +42,15 @@ class FilmList extends React.Component{
                         <th>Жанр</th>
                         <th>Возрастное ограничение</th>
 					</tr>
+				</thead>
+				<tbody>
 					{films}
 				</tbody>
 			</table>
 		)
 	}
 }
-// end::film-list[]
 
-// tag::film[]
 class Film extends React.Component{
 	render() {
 		return (
@@ -72,4 +66,3 @@ class Film extends React.Component{
 		)
 	}
 }
-// end::film[]

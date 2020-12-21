@@ -1,27 +1,16 @@
 'use strict';
 
-import {EmployeePage} from './employeePage';
-import {FilmPage} from './filmPage';
-import {FilmSessionPage} from './filmSessionPage';
-import {TicketPage} from './ticketPage';
+import {AdminUI} from './adminUI';
+import {StandartUI} from './standartUI';
 
-// tag::vars[]
-const React = require('react'); // <1>
-const ReactDOM = require('react-dom'); // <2>
-const client = require('./client'); // <3>
-// end::vars[]
+const React = require('react');
+const ReactDOM = require('react-dom');
 
-// tag::app[]
-class App extends React.Component { // <1>
+class App extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {component: 'employees',
-	role: ""};
-		this.getEmployees = this.getEmployees.bind(this);
-		this.getFilms = this.getFilms.bind(this);
-		this.getFilmSessions = this.getFilmSessions.bind(this);
-		this.getTickets = this.getTickets.bind(this);
+		this.state = {role: ""};
 	}
 
 	componentDidMount() {
@@ -36,71 +25,24 @@ class App extends React.Component { // <1>
 		)
 	}
 
-	getEmployees() {
-		this.setState({component: 'employees'});
-	}
-
-	getFilms() {
-		this.setState({component: 'films'});
-	}
-
-	getFilmSessions() {
-		this.setState({component: 'filmSessions'});
-	}
-
-	getTickets() {
-		this.setState({component: 'tickets'});
-	}
-
-	render() { // <3>
-		if(this.state.component === 'employees') {
-		return (
-			<div>
-				<button onClick={this.getEmployees} disabled>Employees</button>
-				<button onClick={this.getFilms}>Films</button>
-				<button onClick={this.getFilmSessions}>FilmSessions</button>
-				<button onClick={this.getTickets}>Tickets</button>
-				<EmployeePage />
-			</div>
-		);
-		} else if(this.state.component === 'films') {
+	render() {
+		if(this.state.role === 'ROLE_ADMIN') {
 			return (
-				<div>
-					<button onClick={this.getEmployees}>Employees</button>
-					<button onClick={this.getFilms} disabled>Films</button>
-					<button onClick={this.getFilmSessions}>FilmSessions</button>
-					<button onClick={this.getTickets}>Tickets</button>
-					<FilmPage />
-				</div>
+				<AdminUI />
 			);
-		} else if(this.state.component === 'filmSessions') {
+		} else if(this.state.role === 'ROLE_USER') {
 			return (
-				<div>
-					<button onClick={this.getEmployees}>Employees</button>
-					<button onClick={this.getFilms}>Films</button>
-					<button onClick={this.getFilmSessions} disabled>FilmSessions</button>
-					<button onClick={this.getTickets}>Tickets</button>
-					<FilmSessionPage />
-				</div>
+				<StandartUI />
 			);
-		} else if(this.state.component === 'tickets') {
+		} else {
 			return (
-				<div>
-					<button onClick={this.getEmployees}>Employees</button>
-					<button onClick={this.getFilms}>Films</button>
-					<button onClick={this.getFilmSessions}>FilmSessions</button>
-					<button onClick={this.getTickets} disabled>Tickets</button>
-					<TicketPage />
-				</div>
+				<h1>Да кто ты, чёрт побери, такой?!</h1>
 			);
 		}
-	}
+	} 
 }
-// end::app[]
 
-// tag::render[]
 ReactDOM.render(
 	<App />,
 	document.getElementById('react')
 )
-// end::render[]

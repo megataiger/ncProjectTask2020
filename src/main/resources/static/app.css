@@ -1,17 +1,46 @@
+body {
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+}
+
 input.field {
     width: 90%;
 }
 
-table {
-    border-collapse: collapse;
+table {border-collapse: collapse;}
+table thead tr {font-weight: bold; background: grey;}
+table thead tr th {border: 1px solid grey; padding: 10px; color: white}
+table tbody tr td {border: 1px solid #e8e9eb; padding: 10px;}
+table tbody tr:nth-child(2n) {background: #f4f4f4;}
+table tbody tr:hover {background: #c7c7c7;}
+
+.button {
+  width: 100px;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: grey;
+  border: none;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
 }
 
-td, th {
-    border: 1px solid #999;
-    padding: 0.5rem;
-    text-align: left;
+.disabled {
+    width: 100px;
+    display: inline-block;
+    border-radius: 4px;
+    background-color: grey;
+    border: none;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    opacity: 0.6;
+    cursor: not-allowed;
+    margin: 5px;
 }
 
-button {
-    margin: 20px;
+.date {
+    text-align: center;
 }
