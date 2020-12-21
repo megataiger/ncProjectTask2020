@@ -8,3 +8,5 @@ In this version of project was done:
 - Authorization
 - React config
 - MainController
+- Simple view
+- Simple security
