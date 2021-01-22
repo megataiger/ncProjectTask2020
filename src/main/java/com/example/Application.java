@@ -2,15 +2,12 @@ package com.example;
 
 import com.example.dao.*;
 import com.example.entities.Employee;
-import com.example.entities.Film;
 import com.example.entities.Role;
 import com.example.entities.User;
-import jdk.internal.org.xml.sax.SAXException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -20,9 +17,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -60,15 +55,6 @@ class InsertData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        /*User user = new User();
-        user.setUsername("admin");
-        user.setPassword("$2a$08$7bK.AKZ.bGcBcXYQiXdFB.xKInIje3QJOHf5jHmnjfNIdrCVS7pke");
-        user.setActive(true);
-        Set<Role> roles = new HashSet<>(Arrays.asList(Role.ROLE_USER, Role.ROLE_ADMIN));
-        user.setRoles(roles);
-
-        userRepo.save(user);*/
-
         try {
             String filepath = "src/main/resources/dataxml/data.xml";
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -142,10 +128,8 @@ class InsertData implements CommandLineRunner {
                     employeeRepo.save(employeeTemp);
                 }
             }
-        } catch (ParserConfigurationException e) {
+        } catch (ParserConfigurationException | IOException e) {
             e.printStackTrace();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
         }
     }
 }
