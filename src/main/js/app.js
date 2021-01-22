@@ -26,11 +26,11 @@ class App extends React.Component {
 	}
 
 	render() {
-		if(this.state.role === 'ROLE_ADMIN') {
+		if(this.state.role === 'ADMIN') {
 			return (
 				<AdminUI />
 			);
-		} else if(this.state.role === 'ROLE_USER') {
+		} else if(this.state.role === 'USER') {
 			return (
 				<StandartUI />
 			);

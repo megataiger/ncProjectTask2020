@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+    <employees>
+        <employee>
+            <name>Илья</name>
+            <birthday>1984-05-15</birthday>
+            <workPosition>Директор</workPosition>
+        </employee>
+        <employee>
+            <name>Николай</name>
+            <birthday>1989-10-27</birthday>
+            <workPosition>Менеджер</workPosition>
+        </employee>
+        <employee>
+            <name>Иван</name>
+            <birthday>1999-06-10</birthday>
+            <workPosition>Кассир</workPosition>
+        </employee>
+        <employee>
+            <name>Сергей</name>
+            <birthday>1998-01-05</birthday>
+            <workPosition>Кассир</workPosition>
+        </employee>
+        <employee>
+            <name>Алексей</name>
+            <birthday>1999-03-25</birthday>
+            <workPosition>Менеджер</workPosition>
+        </employee>
+    </employees>
+    <users>
+        <user>
+            <username>admin</username>
+            <password>$2a$08$7bK.AKZ.bGcBcXYQiXdFB.xKInIje3QJOHf5jHmnjfNIdrCVS7pke</password>
+            <active>true</active>
+            <roles>
+                <role>ROLE_USER</role>
+                <role>ROLE_ADMIN</role>
+            </roles>
+        </user>
+    </users>
+</data>

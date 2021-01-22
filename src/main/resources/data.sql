@@ -1,7 +1,7 @@
-INSERT INTO employee (id, name, birthday, work_position) VALUES (1, 'Илья', '1984-05-15', 'Директор');
-INSERT INTO employee (id, name, birthday, work_position) VALUES (2, 'Николай', '1989-10-27', 'Менеджер');
-INSERT INTO employee (id, name, birthday, work_position) VALUES (3, 'Иван', '1999-06-10', 'Кассир');
-INSERT INTO employee (id, name, birthday, work_position) VALUES (4, 'Сергей', '1998-01-05', 'Кассир');
+-- INSERT INTO employee (id, name, birthday, work_position) VALUES (1, 'Илья', '1984-05-15', 'Директор');
+-- INSERT INTO employee (id, name, birthday, work_position) VALUES (2, 'Николай', '1989-10-27', 'Менеджер');
+-- INSERT INTO employee (id, name, birthday, work_position) VALUES (3, 'Иван', '1999-06-10', 'Кассир');
+-- INSERT INTO employee (id, name, birthday, work_position) VALUES (4, 'Сергей', '1998-01-05', 'Кассир');
 
 INSERT INTO films (id, name, description, authors, main_actors, duration, category, age_rating)
     VALUES (1,
@@ -40,13 +40,13 @@ INSERT INTO film_session (id, film_id, time_begin, price, room) VALUES (2, 1, '1
 INSERT INTO film_session (id, film_id, time_begin, price, room) VALUES (3, 2, '18:00', 220.00, 1);
 INSERT INTO film_session (id, film_id, time_begin, price, room) VALUES (4, 1, '18:15', 250.00, 2);
 
-INSERT INTO tickets (id, film_session_id, show_day, time_sale, employee_id, row_room, place)
+--INSERT INTO tickets (id, film_session_id, show_day, time_sale, employee_id, row_room, place)
     VALUES(1, 1, 1, NOW(), 3, 3, 7);
-INSERT INTO tickets (id, film_session_id, show_day, time_sale, employee_id, row_room, place)
+--INSERT INTO tickets (id, film_session_id, show_day, time_sale, employee_id, row_room, place)
     VALUES(2, 4, 1, NOW(), 3, 1, 7);
-INSERT INTO tickets (id, film_session_id, show_day, time_sale, employee_id, row_room, place)
+--INSERT INTO tickets (id, film_session_id, show_day, time_sale, employee_id, row_room, place)
     VALUES(3, 4, 1, NOW(), 4, 15, 10);
-INSERT INTO tickets (id, film_session_id, show_day, time_sale, employee_id, row_room, place)
+--INSERT INTO tickets (id, film_session_id, show_day, time_sale, employee_id, row_room, place)
     VALUES(4, 3, 1, NOW(), 4, 10, 3);
 
 INSERT INTO calendar_day_session (calendar_day_id, film_session_id) VALUES (1, 1);

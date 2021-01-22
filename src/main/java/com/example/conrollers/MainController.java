@@ -24,11 +24,11 @@ public class MainController {
     public JsonObject getUserRole(Authentication authentication) {
         JsonObject role = new JsonObject();
         if (authentication.isAuthenticated()) {
-            role.addProperty("role", "ROLE_USER");
+            role.addProperty("role", "USER");
             List<GrantedAuthority> grantedAuthorityList = new ArrayList<>(authentication.getAuthorities());
             for(GrantedAuthority gr: grantedAuthorityList) {
                 if (gr.getAuthority().equals("ROLE_ADMIN")) {
-                    role.addProperty("role", gr.getAuthority());
+                    role.addProperty("role", "ADMIN");
                 }
             }
         }
