@@ -37,5 +37,13 @@
                 <role>ROLE_ADMIN</role>
             </roles>
         </user>
+        <user>
+            <username>user</username>
+            <password>$2a$08$7bK.AKZ.bGcBcXYQiXdFB.xKInIje3QJOHf5jHmnjfNIdrCVS7pke</password>
+            <active>true</active>
+            <roles>
+                <role>ROLE_USER</role>
+            </roles>
+        </user>
     </users>
 </data>

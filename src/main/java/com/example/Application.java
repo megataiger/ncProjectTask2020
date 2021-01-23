@@ -4,6 +4,8 @@ import com.example.dao.*;
 import com.example.entities.Employee;
 import com.example.entities.Role;
 import com.example.entities.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +15,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,8 +26,16 @@ import java.util.Set;
 
 @SpringBootApplication
 public class Application {
+    @Autowired
+    private ObjectMapper objectMapper;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
+    }
+
+    @PostConstruct
+    public void setUp() {
+        objectMapper.registerModule(new JavaTimeModule());
     }
 }
 
@@ -77,7 +88,7 @@ class InsertData implements CommandLineRunner {
                                 userTemp.setPassword(field.getTextContent());
                                 break;
                             case "active":
-                                userTemp.setActive(Boolean.valueOf(field.getTextContent()));
+                                userTemp.setActive(Boolean.parseBoolean(field.getTextContent()));
                                 break;
                             case "roles":
                             {

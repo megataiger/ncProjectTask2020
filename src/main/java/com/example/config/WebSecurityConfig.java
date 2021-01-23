@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/h2-console/**", "/api");
+        web.ignoring().antMatchers("/h2-console/**", "/api/**");
     }
 
     @Override
@@ -49,6 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll();
+             //   .and()
+               // .csrf().disable();
     }
 
     @Override

@@ -1,5 +1,9 @@
 package com.example.entities;
 
+import com.example.LocalDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.gson.annotations.JsonAdapter;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
