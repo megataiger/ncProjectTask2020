@@ -139,13 +139,6 @@ class CreateDialog extends React.Component {
 	}
 
 	render() {
-	/*	const inputs = this.props.attributes.map(attribute =>
-			<p key={attribute}>
-				<input type={attribute == "birthday"?"date":"text"} placeholder={attribute} ref={attribute} className="field"/>
-			</p>
-		);
-		*/
-
 		return (
 			<div>
 				<a href="#createEmployee">Добавить</a>
@@ -269,7 +262,7 @@ class Employee extends React.Component{
 				<td>{formatDate}</td>
 				<td>{this.props.employee.workPosition}</td>
 				<td>
-					<button onClick={this.handleDelete}>Delete</button>
+					<button onClick={this.handleDelete}>Удалить</button>
 				</td>
 			</tr>
 		)

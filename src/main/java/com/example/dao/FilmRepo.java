@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FilmRepo extends PagingAndSortingRepository<Film, Integer> {
+
+    Film getFilmByName(String name);
 }

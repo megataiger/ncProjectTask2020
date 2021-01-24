@@ -67,9 +67,7 @@ export class FilmSessionPage extends React.Component {
 	// tag::delete[]
 	onDelete(filmSession) {
 		client({method: 'DELETE', path: filmSession._links.self.href}).done(response => {
-			/*client({method: 'DELETE', path: filmSession._links.self.href}).done(response => {
 				this.loadFromServer(this.state.pageSize);
-			});*/
 		});
 	}
 	// end::delete[]
@@ -168,7 +166,9 @@ class CreateDialog extends React.Component {
 
 		// clear out the dialog's inputs
 		this.props.attributes.forEach(attribute => {
-			ReactDOM.findDOMNode(this.refs[attribute]).value = '';
+			if (attribute != "calendarDayList") {
+				ReactDOM.findDOMNode(this.refs[attribute]).value = '';
+			}
 		});
 
 		// Navigate away from the dialog to hide it.
@@ -182,7 +182,7 @@ class CreateDialog extends React.Component {
 
 		return (
 			<div>
-				<a href="#createFilmSession">Добавить</a>
+				<a href="#createFilmSession">Добавить сеанс</a>
 
 				<div id="createFilmSession" className="modalDialog">
 					<div>
