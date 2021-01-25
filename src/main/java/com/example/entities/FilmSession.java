@@ -2,6 +2,7 @@ package com.example.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,7 +24,10 @@ public class FilmSession {
 
     private int room;
 
-    @ManyToMany(mappedBy = "filmSessionList", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "calendar_day_session",
+            joinColumns = @JoinColumn(name = "film_session_id"),
+            inverseJoinColumns = @JoinColumn(name = "calendar_day_id"))
     private List<CalendarDay> calendarDayList;
 
     public FilmSession() {
@@ -50,6 +54,10 @@ public class FilmSession {
 
     public void setFilm(Film film) {
         this.film = film;
+    }
+
+    public String getFilmName() {
+        return film.getName();
     }
 
     public String getTimeBegin() {

@@ -68,7 +68,7 @@ export class FilmSessionPage extends React.Component {
 	onDelete(filmSession) {
 		client({method: 'DELETE', path: filmSession._links.self.href}).done(response => {
 				this.loadFromServer(this.state.pageSize);
-		});
+			});
 	}
 	// end::delete[]
 
@@ -116,8 +116,16 @@ export class FilmSessionPage extends React.Component {
 
 class FilmSessionList extends React.Component{
 	render() {
-		const filmSessions = this.props.filmSessions.map(filmSession =>
-			<FilmSession key={filmSession._links.self.href} filmSession={filmSession} onDelete={this.props.onDelete}/>
+		const filmSessions = this.props.filmSessions.map((filmSession, index) =>
+			<tr key={index}>
+                <td>{filmSession.filmName}</td>
+				<td>{filmSession.timeBegin}</td>
+				<td>{filmSession.price}&#8381;</td>
+				<td>{filmSession.room}</td>
+				<td>
+					<button onClick={this.props.onDelete.bind(this, filmSession)}>Удалить</button>
+				</td>
+			</tr>
 		);
 		return (
 			<table className="pageTable">
@@ -155,10 +163,8 @@ class CreateDialog extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault();
 		const newFilmSession = {};
-		console.log(this.refs);
-		console.log(this.props.attributes);
 		this.props.attributes.forEach(attribute => {
-			if (attribute != "calendarDayList") {
+			if (attribute != "calendarDayList" && attribute != "filmName") {
 				newFilmSession[attribute] = ReactDOM.findDOMNode(this.refs[attribute]).value.trim();
 			}
 		});
@@ -166,7 +172,7 @@ class CreateDialog extends React.Component {
 
 		// clear out the dialog's inputs
 		this.props.attributes.forEach(attribute => {
-			if (attribute != "calendarDayList") {
+			if (attribute != "calendarDayList" && attribute != "filmName") {
 				ReactDOM.findDOMNode(this.refs[attribute]).value = '';
 			}
 		});
@@ -215,36 +221,3 @@ class CreateDialog extends React.Component {
 
 }
 // end::create-dialog[]
-
-class FilmSession extends React.Component{
-    
-    constructor(props) {
-        super(props);
-		this.state = {film: []};
-		this.handleDelete = this.handleDelete.bind(this);
-	}
-
-	handleDelete() {
-		this.props.onDelete(this.props.filmSession);
-	}
-
-    componentDidMount() {
-        client({method: 'GET', path: this.props.filmSession._links.film.href}).done(response => {
-			this.setState({film: response.entity});
-		});
-    }
-
-	render() {
-		return (
-			<tr>
-                <td>{this.state.film.name}</td>
-				<td>{this.props.filmSession.timeBegin}</td>
-				<td>{this.props.filmSession.price}&#8381;</td>
-				<td>{this.props.filmSession.room}</td>
-				<td>
-					<button onClick={this.handleDelete}>Delete</button>
-				</td>
-			</tr>
-		)
-	}
-}

@@ -12,6 +12,7 @@ public class CalendarDay {
     private int id;
 
     private LocalDate calendarDay;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "calendar_day_session",
     joinColumns = @JoinColumn(name = "calendar_day_id"),

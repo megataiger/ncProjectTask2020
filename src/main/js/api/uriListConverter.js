@@ -11,7 +11,7 @@ define(function() {
 			if (obj instanceof Array) {
 				return obj.map(resource => resource._links.self.href).join('\n');
 			} else { // otherwise, just return the self URI
-				return obj;//._links.self.href;
+				return obj._links.self.href;
 			}
 		}
 	};

@@ -135,8 +135,8 @@ class CalendarDayList extends React.Component {
 	// end::handle-nav[]
 
     render() {
-        const calendarDays = this.state.calendarDays.map(calendarDay =>
-            <CalendarDay key={calendarDay._links.self.href} calendarDay={calendarDay}
+        const calendarDays = this.state.calendarDays.map((calendarDay, index) =>
+            <CalendarDay key={index} calendarDay={calendarDay} index={index}
                         onDelete={this.onDelete} onNavigate={this.onNavigate}/>
         );
         const navLinks = [];
@@ -184,6 +184,7 @@ class CalendarDay extends React.Component{
         this.reloadFilmSessions = this.reloadFilmSessions.bind(this);
         this.deleteDay = this.deleteDay.bind(this);
         this.addFilmSession = this.addFilmSession.bind(this);
+        this.deleteFilmSession = this.deleteFilmSession.bind(this);
     }
 
     componentDidMount() {
@@ -194,11 +195,22 @@ class CalendarDay extends React.Component{
 
     addFilmSession(newFilmSession) {
         client({
-				method: 'PATCH',
+				method: 'PUT',
                 path: this.props.calendarDay._links.filmSessionList.href,
                 entity: newFilmSession,
                 headers: {'Accept': 'text/uri-list',
                 'Content-Type': 'text/uri-list'}
+        }).done(response => {
+            this.reloadFilmSessions();
+        });
+    }
+
+    deleteFilmSession(filmSession) {
+        const resource = filmSession._links.self.href.split('/');
+        const id = resource[resource.length-1];
+        client({
+            method: 'DELETE',
+            path: this.props.calendarDay._links.filmSessionList.href+'/'+id
         }).done(response => {
             this.reloadFilmSessions();
         });
@@ -218,6 +230,7 @@ class CalendarDay extends React.Component{
         const calendarDayValue = this.props.calendarDay.calendarDay;
         const date = new Date(calendarDayValue);
         const formatDate = date.toLocaleString('ru-RU', {year: 'numeric', month: '2-digit', day: '2-digit'});
+        const createDialog = <CreateDialogFilmSession index={this.props.index} addFilmSession={this.addFilmSession}/>;
 		return (
             <React.Fragment>
                 <tr>
@@ -231,10 +244,10 @@ class CalendarDay extends React.Component{
                 <FilmSessionList calendarDay={this.props.calendarDay}
                                 onNavigate={this.props.onNavigate} 
                                 filmSessionList={this.state.filmSessions}
-                                reloadFilmSessions={this.reloadFilmSessions}/>
+                                deleteFilmSession={this.deleteFilmSession}/>
                 <tr>
                     <td colSpan="5">
-                        <CreateDialogFilmSession addFilmSession={this.addFilmSession}/>
+                        {createDialog}
                     </td>
                 </tr>
             </React.Fragment>
@@ -245,12 +258,27 @@ class CalendarDay extends React.Component{
 class FilmSessionList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {reload: {}};
     }
 
     render() {
-        const filmSessions = this.props.filmSessionList.map(filmSession => 
-            <FilmSession key={filmSession._links.self.href} filmSession={filmSession}/>
+        const filmSessions = this.props.filmSessionList.map((filmSession, index) => 
+            <tr key={index}>
+                <td>
+                    {filmSession.filmName}
+                </td>
+                <td>
+                    {filmSession.timeBegin}
+                </td>
+                <td>
+                    {filmSession.price}&#8381;
+                </td>
+                <td>
+                    {filmSession.room} Зал
+                </td>
+                <td>
+                    <button onClick={this.props.deleteFilmSession.bind(this, filmSession)}>Удалить</button>
+                </td>
+            </tr>
         );
         if (filmSessions.length == 0) {
             return (
@@ -267,41 +295,6 @@ class FilmSessionList extends React.Component {
                 </React.Fragment>
             );
         }
-    }
-}
-
-class FilmSession extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {film: []};
-    }
-
-    componentDidMount() {
-        client({method: 'GET', path: this.props.filmSession._links.film.href}).done(response => {
-			this.setState({film: response.entity});
-		});
-    }
-
-    render() {
-        return (
-            <tr>
-                <td>
-                    {this.state.film.name}
-                </td>
-                <td>
-                    {this.props.filmSession.timeBegin}
-                </td>
-                <td>
-                    {this.props.filmSession.price}&#8381;
-                </td>
-                <td>
-                    {this.props.filmSession.room}
-                </td>
-                <td>
-                    <button>Удалить</button>
-                </td>
-            </tr>
-        );
     }
 }
 
@@ -355,30 +348,22 @@ class CreateDialogFilmSession extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-        const newFilmSession = ReactDOM.findDOMNode(this.refs['filmSession']).value.trim();
-        this.props.addFilmSession(newFilmSession);
-
-		// clear out the dialog's inputs
-	//	ReactDOM.findDOMNode(this.refs['filmSession']).value = '';
-
-		// Navigate away from the dialog to hide it.
+    handleSubmit(chooseFilmSession) {
+        this.props.addFilmSession(chooseFilmSession);
         window.location = "#";
-        
     }
     
     render() {
         return (
             <div>
-                <a href="#createFilmSession">Добавить сеанс в расписание</a>
+                <a href={'#' + this.props.index}>Добавить сеанс в расписание</a>
 
-                <div id="createFilmSession" className="modalDialog">
+                <div id={this.props.index} className="modalDialog">
 				<div>
 					<a href="#" title="Close" className="close">X</a>
 
 					<h2>Добавить сеанс в расписание</h2>
-                    <OptionFilmSession />
+                    <OptionFilmSession handleSubmit={this.handleSubmit}/>
 				</div>
 			    </div>
             </div>
@@ -390,70 +375,79 @@ class OptionFilmSession extends React.Component {
     constructor(props) {
         super(props);
         this.state = {filmSessions: []};
-        this.
+        this.chooseFilmSession = this.chooseFilmSession.bind(this);
+        this.choosenFilmSessions = [];
     }
 
-    createArrayFilmSessions() {
-        var filmSessions;
-        client({method: 'GET', path: './api/filmSessions'}).done(response => { 
-            filmSessions = response.entity._embedded.filmSessions;
-            filmSessions.forEach(filmSession => {
-                client({method: 'GET', path: filmSession._links.film.href}).done(response =>
-                filmSession['filmName'] = response.entity.name
-            );
-        })
-        });
-        return filmSessions;
+    chooseFilmSession(filmSession, flag) {
+        if (flag) {
+            this.choosenFilmSessions.pop(filmSession);
+        } else {
+            this.choosenFilmSessions.push(filmSession);
+        }
     }
 
     componentDidMount() {
-        const values = client({method: 'GET', path: './api/filmSessions'}).done(response => {
-            return function () {
-                response.entity._embedded.filmSessions.forEach(filmSession => {
-                client({method: 'GET', path: filmSession._links.film.href}).done( response =>
-                filmSession['filmName'] = response.entity.name
-            );
-        })
-    }.then(filmSessions => 
-                this.setState({filmSessions: filmSessions}))
-        });/*.forEach(filmSession => {
-            client({method: 'GET', path: filmSession._links.film.href}).done( response =>
-                filmSession['filmName'] = response.entity.name
-            );
-        }); */
-        console.log(values);
-        //.done(response => this.setState({filmSessions: response}));
-          /*  filmSessions.forEach(filmSession => {
-                client({method: 'GET', path: filmSession._links.film.href}).done( response =>
-                    filmSession['filmName'] = response.entity.name
-                );
-            })
-        }).then(this.setState({filmSessions: filmSessions}));*/
+        client({method: 'GET', path: './api/filmSessions'}).done(filmSessions => {
+            this.setState({filmSessions: filmSessions.entity._embedded.filmSessions});
+        });
     }
 
     render() {
-        const filmSessionTable = this.state.filmSessions.map(filmSession => 
-            <tr key={filmSession}>
-                <td>
-                    {filmSession.filmName}
-                </td>
-                <td>
-                    {filmSession.timeBegin}
-                </td>
-                <td>
-                    {filmSession.room}
-                </td>
-                <td>
-                    <button>
-                        Выбрать
-                    </button>
-                </td>
-            </tr>
+        const filmSessionTable = this.state.filmSessions.map((filmSession, index) => 
+            <FilmSessionRow key={index} 
+                            filmSession={filmSession} 
+                            chooseFilmSession={this.chooseFilmSession}/>
         );
         return(
-            <table>
-                {filmSessionTable}
-            </table>
+            <div>
+                <table>
+                    <tbody>
+                        {filmSessionTable}
+                    </tbody>
+                </table>
+                <p>
+                    <button onClick={this.props.handleSubmit.bind(this, this.choosenFilmSessions)}>Подтвердить</button>
+                </p>
+            </div>
+        );
+    }
+}
+
+class FilmSessionRow extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {flag: false};
+        this.handleFilmSession = this.handleFilmSession.bind(this);
+    }
+
+    handleFilmSession(filmSession) {
+        this.props.chooseFilmSession(filmSession, this.state.flag);
+        if (this.state.flag) {
+            this.setState({flag: false});
+        } else {
+            this.setState({flag: true});
+        }
+    }
+
+    render() {
+        const checked = this.state.flag === true ? <td>&#10004;</td>: <td>&#10010;</td>;
+        return(
+            <tr onClick={this.handleFilmSession.bind(this, this.props.filmSession)}>
+                <td>
+                    {this.props.filmSession.filmName}
+                </td>
+                <td>
+                    {this.props.filmSession.timeBegin}
+                </td>
+                <td>
+                    {this.props.filmSession.price}&#8381;
+                </td>
+                <td>
+                    {this.props.filmSession.room} Зал
+                </td>
+                {checked}
+            </tr>
         );
     }
 }

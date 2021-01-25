@@ -1,6 +1,9 @@
 package com.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "films")
@@ -24,6 +27,9 @@ public class Film {
     private String category;
 
     private int ageRating;
+
+    @OneToMany
+    private List<FilmSession> filmSessionList;
 
     public Film() {
     }
@@ -100,5 +106,13 @@ public class Film {
 
     public void setAgeRating(int ageRating) {
         this.ageRating = ageRating;
+    }
+
+    public List<FilmSession> getFilmSessionList() {
+        return filmSessionList;
+    }
+
+    public void setFilmSessionList(List<FilmSession> filmSessionList) {
+        this.filmSessionList = filmSessionList;
     }
 }

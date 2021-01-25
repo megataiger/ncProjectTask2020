@@ -114,3 +114,11 @@ td, th {
 }
 
 .close:hover { background: #00d9ff; }
+
+.selected {
+    background-color: green;
+}
+
+.unselected {
+    background-color: white;
+}
