@@ -8,5 +8,5 @@ In this version of project was done:
 - Authorization
 - React config
 - MainController
-- Simple view
-- Simple security
+- View, create and delete entities
+- Security with passwordEncoder and system registration new users
