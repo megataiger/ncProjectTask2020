@@ -1,4 +1,4 @@
-package com.example.dao;
+package com.example.repositories;
 
 import com.example.entities.CalendarDay;
 import org.springframework.data.repository.PagingAndSortingRepository;

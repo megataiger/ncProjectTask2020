@@ -1,4 +1,4 @@
-package com.example.dao;
+package com.example.repositories;
 
 import com.example.entities.FilmSession;
 import org.springframework.data.rest.core.config.Projection;

@@ -1,4 +1,4 @@
-package com.example.dao;
+package com.example.repositories;
 
 import com.example.entities.Film;
 import org.springframework.data.repository.PagingAndSortingRepository;

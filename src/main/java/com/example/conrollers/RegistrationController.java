@@ -1,6 +1,6 @@
 package com.example.conrollers;
 
-import com.example.dao.UserRepo;
+import com.example.repositories.UserRepo;
 import com.example.entities.Role;
 import com.example.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;

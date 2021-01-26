@@ -28,7 +28,7 @@ public class Film {
 
     private int ageRating;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "film")
     private List<FilmSession> filmSessionList;
 
     public Film() {

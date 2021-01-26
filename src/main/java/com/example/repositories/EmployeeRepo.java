@@ -1,4 +1,4 @@
-package com.example.dao;
+package com.example.repositories;
 
 import com.example.entities.Employee;
 import org.springframework.data.repository.PagingAndSortingRepository;
